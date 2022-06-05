@@ -27,72 +27,80 @@ public class UI {
     
     public void start() {
         loadJSON();
-
-        System.out.println("List of Contacts");
-        System.out.println("Choose an option:");
-        System.out.println(" 1. Add a name and number.");
-        System.out.println(" 2 search for a number");
-        System.out.println(" 3 search for a person by phone number");
-        System.out.println(" 4 add an address");
-        System.out.println(" 5 search for personal information");
-        System.out.println(" 6 delete personal information");
-        System.out.println(" 7 filtered listing");
-        System.out.println(" x quit");
         
         while (true) {
+
+            System.out.println("");
+            System.out.println("List of Contacts");
+            System.out.println("Input an option:");
+            System.out.println(" 1 Add a name and number.");
+            System.out.println(" 2 Update an address.");
+            System.out.println(" 3 Search contact list for a person by phone number.");
+            System.out.println(" 4 Search contact list for a phone number by person.");
+            System.out.println(" 5 Search contact list for an address by name.");
+            System.out.println(" 6 Delete an entry from the contact list.");
+            System.out.println(" 7 Alphabetically List or filter all contacts.");
+            System.out.println(" 8 Send mass SMS message to all contacts.");
+            System.out.println(" x Quit.");
             System.out.println("");
             System.out.print("command: ");
             String command = reader.nextLine();
-            
-            if (command.equals("x")) {
-                saveJSON();
-                break;
-            }
-            
-            else if (command.equals("1")) {
-                addNumber();
-            }
-            
-            else if (command.equals("2")) {
-                searchForNumber();
-            }
-            
-            else if (command.equals("3")) {
-                searchByNumber();
-            }
-            
-            else if (command.equals("4")) {
-                addAddress();
-            }
-            
-            else if (command.equals("5")) {
-                searchInfo();
-            }
-            
-            else if (command.equals("6")) {
-                System.out.print("whose information: ");
-                String who = reader.nextLine();
-                for (Person p : this.phonebook.phonebook) {
-                    if (p.getName().contains(who)) {
-                        this.phonebook.deletePerson(p);
-                        break;
-                    }
-                }
-            }
-            
-            else if (command.equals("7")) {
-                searchKeyWord();
+
+            switch (command) {
+                case "x":
+                    saveJSON();
+                    System.exit(0);
+                case "1":
+                    addNumber();
+                    break;
+                case "2":
+                    addAddress();
+                    break;
+                case "3":
+                    searchByNumber();
+                    break;
+                case "4":
+                    searchForNumber();
+                    break;
+                case "5":
+                    searchInfo();
+                    break;
+                case "6":
+                    deleteInformation();
+                    break;
+                case "7":
+                    searchKeyWord();
+                    break;
+                case "8":
+                    sendMassSMS();
+                    break;
             }
         }
         
     }
     
-    
+    public void deleteInformation() {
+        System.out.print("Enter a full name to delete (must be exact match): ");
+        String who = reader.nextLine();
+        boolean found = false;
+        for (Person p : this.phonebook.phonebook) {
+            if (p.getName().equals(who)) {
+                this.phonebook.deletePerson(p);
+                found = true;
+                break;
+            }
+        }
+        if (found == false) {
+            System.out.println("No entries found.");
+        } else {
+            System.out.println("Successfully deleted " + who);
+        }
+    }
     
     public void addNumber() {
-        System.out.print("whose number: ");
+        System.out.print("Name: ");
         String name = reader.nextLine();
-        System.out.print("number: ");
+        System.out.print("Phone number: ");
         String number = reader.nextLine();
         Person person = new Person(name);
         if (this.phonebook.getNames().contains(name)) {
@@ -109,44 +117,48 @@ public class UI {
     }
     
     public void searchForNumber() {
-        System.out.print("whose number: ");
+        System.out.print("Enter a name or part of name: ");
         String name = reader.nextLine();
         if (this.phonebook.getNames().contains(name)) {
             for (Person p : this.phonebook.phonebook) {
                 if (p.getName().contains(name)) {
-                    System.out.print(" " + p.getNumber());
+                    System.out.print(p.getName() + ": " + p.getNumber() + "\n");
                 }
             }
         }
         else if (!this.phonebook.getNames().contains(name)) {
-            System.out.println("  not found");
+            System.out.println(" No entries found.");
         }
     }
     
     public void searchByNumber() {
-        System.out.print("number: ");
-        String number = reader.nextLine();
-        if (this.phonebook.getNumbers().contains(number)) {
-            for (Person p : this.phonebook.phonebook) {
-                if (p.getNumber().contains(number)) {
+        boolean found = false;
+        System.out.print("Enter phone number or part of phone number: ");
+        String numberCheck = reader.nextLine();
+        for (Person p : this.phonebook.phonebook) {
+            for (Object numberObj : p.getNumber()) {
+                String number = (String) numberObj;
+                if (number.contains(numberCheck)) {
                     System.out.println(" " + p.getName());
+                    found = true;
+                    break;
                 }
             }
         }
-        else if (!this.phonebook.getNumbers().contains(number)) {
-            System.out.println(" not found");
+        if (found == false) {
+            System.out.println("No entries found.");
         }
     }
     
     public void addAddress() {
-        System.out.print("whose address: ");
+        System.out.print("Name of person to update address (must be exact match): ");
         String name = reader.nextLine();
-        System.out.print("address: ");
+        System.out.print("Enter address: ");
         String address = reader.nextLine();
         if (this.phonebook.getNames().contains(name)) {
         for (Person p : this.phonebook.phonebook) {
-            if (p.getName().contains(name)) {
-                p.addAddress(address);
+            if (p.getName().equals(name)) {
+                p.setAddress(address);
             }
         }
         }
@@ -155,55 +167,45 @@ public class UI {
             this.phonebook.addPerson(person);
             for (Person p : this.phonebook.phonebook) {
                 if (p.getName().contains(name)) {
-                p.addAddress(address);
+                p.setAddress(address);
             }
             } 
     }
 }
     
     public void searchInfo() {
-        System.out.print("whose information: ");
+        System.out.print("Enter a name or part of name: ");
         String name = reader.nextLine();
         if (this.phonebook.getNames().contains(name)) {
             for (Person p : this.phonebook.phonebook) {
                 if (p.getName().contains(name)) {
                     System.out.println(p.getName());
-                    if (p.checkAddressSize() < 1) {
-                        System.out.println("  address unknown");
+                    System.out.println("  Address: " + p.getAddress());
                     }
-                    else {
-                    System.out.println("  address: " + p.getAddress());
-                    }
-                    if (p.checkPhoneSize() < 1) {
-                        System.out.println("  phone number not found");
-                    }
-                    else
-                    System.out.print("  phone number(s): " + "\n" + "    " + p.getNumberInfo());
                 }
             }
-        }
         else if (!this.phonebook.getNames().contains(name)) {
-            System.out.println("  not found");
+            System.out.println("No entries found.");
         }
-        
     }
     
     public void searchKeyWord() {
-        System.out.print("keyword (if empty, all listed): ");
+        System.out.print("Search by keyword (leave blank to list all contacts): ");
         String key = reader.nextLine();
+        key = key.toLowerCase();
         Collections.sort(this.phonebook.phonebook);
-        if (this.phonebook.getNames().contains(key)
-                || this.phonebook.getAddresses().contains(key)) {
+        if (this.phonebook.getNames().toLowerCase().contains(key)
+                || this.phonebook.getAddresses().toLowerCase().contains(key)) {
             for (Person p : this.phonebook.phonebook) {
-                if (p.getName().contains(key)
-                        || p.getAddress().contains(key)) {
+                if (p.getName().toLowerCase().contains(key)
+                        || p.getAddress().toLowerCase().contains(key)) {
                                         System.out.println(" " + p.getName());
-                                        System.out.println("  address: " + p.getAddress());
+                                        System.out.println("  Address: " + p.getAddress());
                                         
                     if (p.checkPhoneSize() < 1) {
-                        System.out.println("  phone number not found");
+                        System.out.println("  Phone number not found.");
                     } else
-                        System.out.println("  phone numbers: " + "\n" + "   " + p.getNumberInfo());
+                        System.out.println("  Phone numbers: " + "\n" + "   " + p.getNumberInfo());
 
                 }
         }
@@ -211,7 +213,7 @@ public class UI {
         
         else if (!this.phonebook.getNames().contains(key)
                 || !this.phonebook.getAddresses().contains(key)) {
-            System.out.println(" keyword not found");
+            System.out.println(" Keyword not found.");
         }
     }
 
@@ -230,7 +232,7 @@ public class UI {
                     person.addNumber(nums);
                 }
                 this.phonebook.addPerson(person);
-                person.addAddress((String)contact.get("address"));
+                person.setAddress((String)contact.get("address"));
 
             }
 
@@ -254,11 +256,7 @@ public class UI {
             JSONObject contactDetails = new JSONObject();
             contactDetails.put("address", p.getAddress());
             contactDetails.put("name", p.getName());
-
-            String numbers = p.getNumber();
-            String[] number_array = numbers.split("\n");
-            List<String> numbersList = Arrays.asList(number_array);
-            contactDetails.put("number(s)", numbersList);
+            contactDetails.put("number(s)", p.getNumber());
 
             JSONObject contactObject = new JSONObject();
             contactObject.put("contact", contactDetails);
@@ -276,6 +274,24 @@ public class UI {
             file.flush();
         } catch (IOException err) {
             err.printStackTrace();
+        }
+    }
+
+    public void sendMassSMS() {
+        System.out.print("Begin typing your message. It will begin with 'Hi (name here),': ");
+        String message = reader.nextLine();
+        for (Person p : this.phonebook.phonebook) {
+            String full_message = "Hi " + p.getName() + ", " + message;
+            for (Object numberObj: p.getNumber()) {
+                String number = (String)numberObj;
+                if ((number.length() == 11)) {
+                    String sid = this.sms.sendSMS(full_message, (String)number);
+                    System.out.println(full_message + " SENT TO " + number + " WITH SID " + sid);
+                } else {
+                    System.out.println("Not sent to " + number);
+                }
+
+            }
         }
     }
 

@@ -42,23 +42,4 @@ public class PhoneBook {
         }
         return addresses;
     }
-    
-    public String searchUsingNumber(String number) {
-        for (Person p : this.phonebook) {
-            if (p.getNumber().contains(number)) {
-                return p.getName();
-            }
-        }
-        return " not found";
-    }
-    
-    public String searchUsingName(String name) {
-        for (Person p : this.phonebook) {
-            if (p.getName().contains(name)) {
-                return p.getNumber();
-            }
-        }
-        return "  not found";
-    }
-    
 }
