@@ -6,7 +6,6 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         PhoneBook b = new PhoneBook();
         Sms sms = new Sms();
-        
         UI ui = new UI(reader, b, sms);
         ui.start();
 

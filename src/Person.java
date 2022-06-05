@@ -18,12 +18,12 @@ import java.util.Set;
 public class Person implements Comparable<Person>{
     private String name;
     private List<String> phone;
-    private ArrayList<Address> address;
+    private String address;
     
     public Person() {
         this.name = "";
         this.phone = new ArrayList<String>();
-        this.address = new ArrayList<Address>();
+        this.address = address;
     }
     
     @Override
@@ -35,7 +35,7 @@ public class Person implements Comparable<Person>{
     public Person(String name) {
         this.name = name;
         this.phone = new ArrayList<String>();
-        this.address = new ArrayList<Address>();
+        this.address = "Unknown address.";
     }
     
     public void addNumber(String number) {
@@ -57,39 +57,20 @@ public class Person implements Comparable<Person>{
         return numbers;
     }
     
-    public String getNumber() {
-        if (checkPhoneSize() < 1) {
-            return "no saved numbers";
-        }
-        String numbers = "";
-        for (String num : this.phone) {
-            numbers = numbers + num + "\n";
-        }
-        return numbers;
+    public List getNumber() {
+        return this.phone;
     }    
     
     public int checkPhoneSize() {
         return this.phone.size();
     }
     
-    public int checkAddressSize() {
-        return this.address.size();
-    }
-    
     public String getAddress() {
-        if (checkAddressSize() < 1) {
-            return "address unknown";
-        }
-        String address = "";
-        for (Address add : this.address) {
-            address = address + add.getAddress();
-        }
         return address;
     }
     
-    public void addAddress(String address) {
-        Address add = new Address(address);
-        this.address.add(add);
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
 
