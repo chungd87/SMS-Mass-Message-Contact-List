@@ -12,6 +12,8 @@ Danny Chung
 - Java JDK 11
 - Twilio
 
-## SMS Confirmation Screenshot
+## SMS Confirmation Screenshots
 
 ![](./screenshots/mass_messages.png)
+
+![phone_msg](https://user-images.githubusercontent.com/67284108/172097239-b5b90e0f-367f-4dc9-b99e-133e9ec14671.png)
