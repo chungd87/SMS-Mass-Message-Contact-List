@@ -1,9 +1,9 @@
+/**
+ * Danny Chung
+ */
 
 import java.util.ArrayList;
-/**
- *
- * @author ffoxx
- */
+
 public class PhoneBook {
     public ArrayList<Person> phonebook;
     
@@ -18,7 +18,10 @@ public class PhoneBook {
     public void addPerson(Person name) {
         this.phonebook.add(name);
     }
-    
+
+    /**
+     * Return a string list of names for easy .contains comparison.
+     */
     public String getNames() {
         String names = "";
         for (Person p : this.phonebook) {
@@ -26,7 +29,10 @@ public class PhoneBook {
         }
         return names;
     }
-    
+
+    /**
+     * Return a string list of numbers for easy .contains comparison.
+     */
     public String getNumbers() {
         String numbers = "";
         for (Person p : this.phonebook) {
@@ -34,7 +40,10 @@ public class PhoneBook {
         }
         return numbers;
     }
-    
+
+    /**
+     * Return a string list of addresses for easy .contains comparison.
+     */
     public String getAddresses() {
         String addresses = "";
         for (Person p : this.phonebook) {
