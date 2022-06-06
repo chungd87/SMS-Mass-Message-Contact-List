@@ -1,8 +1,9 @@
 # SMS-Mass-Message-Contact-List
-Reads and writes .json file name, number, and address objects for contact information.
-Create, replace, update, delete, and search contacts list by name, number, address, or keyword.
-Alphabetically lists all contacts.
-Sends mass SMS messages to all contacts in the contact list.
+- Loads a mass contact list from .json file.
+- Create, replace, update, delete, and search contacts list by name, number, address, or keyword.
+- List all contacts or filter by keyword.
+- Sends mass SMS messages to all contacts in the contact list.
+- Saves modified .json file on exit.
 
 #### Author
 Danny Chung
