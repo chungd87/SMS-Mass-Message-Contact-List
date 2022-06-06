@@ -13,4 +13,4 @@ Danny Chung
 
 ## SMS Confirmation Screenshot
 
-![](./screenshots/mass_message.png)
+![](./screenshots/mass_messages.png)
