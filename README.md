@@ -2,7 +2,7 @@
 - Loads a mass contact list from .json file.
 - Create, replace, update, delete, and search contacts list by name, number, address, or keyword.
 - List all contacts or filter by keyword.
-- Sends mass SMS messages to all contacts in the contact list.
+- Sends mass SMS messages to all contacts in the contact list, using their proper name in the message.
 - Saves modified .json file on exit.
 
 #### Author
